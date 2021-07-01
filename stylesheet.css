@@ -5,25 +5,20 @@
 }
 
 .panel-root-button.state-transition{
-  background-color: rgba(200,150,30,0.6);
+  background-color: rgba(200,150,30,.3);
 }
 
 .panel-root-button.state-connected{
-  background-color: rgba(10,130,10,0.6);
+  background-color: rgba(48, 133, 255,.3);
 }
 
 .panel-root-button.state-problem{
-  background-color: rgba(130, 10, 10, 0.6);
+  background-color: rgba(130, 10, 10, .3);
 }
-
 
 .panel-status-menu-hbox{
   font-size: 15px;
   border-radius: 5px;
-}
-.panel-status-menu-hbox{
-  border-radius: 5px;
-  font-size: 15px;
 }
 
 .panel-status-menu-hbox-transition{

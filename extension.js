@@ -496,13 +496,13 @@ class NVPNMenu extends PanelMenu.Button{
     this._panel_hbox.add(this._panel_icon);
 
     /** 'NVPN' panel text label*/
-    this.label_nvpn= new St.Label({style_class: 'label-nvpn-panel', y_align: St.Align.END});
-    this.label_nvpn.text= (SETTINGS.get_boolean('compact-icon')) ? ' ' : 'NVPN ';
-    this.SETT_SIGS[0]= SETTINGS.connect('changed::compact-icon', () => {
-      this.label_nvpn.text= (SETTINGS.get_boolean('compact-icon')) ? ' ' : 'NVPN ';
-    });
-    this.label_nvpn.y_fill= false;
-    this._panel_hbox.add(this.label_nvpn)
+    // this.label_nvpn= new St.Label({style_class: 'label-nvpn-panel', y_align: St.Align.END});
+    // this.label_nvpn.text= (SETTINGS.get_boolean('compact-icon')) ? ' ' : 'NVPN ';
+    // this.SETT_SIGS[0]= SETTINGS.connect('changed::compact-icon', () => {
+    //   this.label_nvpn.text= (SETTINGS.get_boolean('compact-icon')) ? ' ' : 'NVPN ';
+    // });
+    // this.label_nvpn.y_fill= false;
+    // this._panel_hbox.add(this.label_nvpn)
     this.add_child(this._panel_hbox);
 
     /** saving this idea for later disconnection of the signal during object's destruction */
