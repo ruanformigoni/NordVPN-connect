@@ -17,7 +17,7 @@
 }
 
 .panel-root-button.state-transition{
-  background-color: rgba(200,150,30,.3);
+  background-color: rgba(200,150,30,.0);
 }
 
 .panel-root-button.state-connected{
@@ -25,7 +25,7 @@
 }
 
 .panel-root-button.state-problem{
-  background-color: rgba(130, 10, 10, .3);
+  background-color: rgba(130, 10, 10, .0);
 }
 
 .panel-status-menu-hbox{

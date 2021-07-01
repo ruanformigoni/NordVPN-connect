@@ -1085,6 +1085,10 @@ class NVPNMenu extends PanelMenu.Button{
     /** update infos about the current server */
     this._update_displayed_server_infos(true);
 
+    // New icons
+    let cgicon = Gio.icon_new_for_string(`${Me.path}/network-vpn-nord.png`);
+    let dgicon = Gio.icon_new_for_string(`${Me.path}/network-vpn-nord-disconnected.png`);
+
     /** the following switch-case allows to update the relevant UI element according to the
      *  newly obtained value of the 'currentStatus' attribute */
     switch(this.currentStatus)
@@ -1105,7 +1109,7 @@ class NVPNMenu extends PanelMenu.Button{
 
         this._clearTransitionStateStyleClass()
         this.style_class+= (this._b_colored_status)?" state-problem":''
-        // this._panel_icon.icon_name= 'network-vpn-no-route-symbolic';
+        this._panel_icon.gicon = dgicon;
 
         /** submenus hidden */
         this._submenusVisible(false);
@@ -1126,7 +1130,8 @@ class NVPNMenu extends PanelMenu.Button{
 
         this._clearTransitionStateStyleClass()
         this.style_class+= (this._b_colored_status)?" state-connected":''
-        // this._panel_icon.icon_name= 'network-vpn-symbolic';
+        /** the icon in the top panel area (may change according to current status)*/
+        this._panel_icon.gicon = cgicon;
 
         /** enbales the submenus to show*/
         this._submenusVisible(true);
@@ -1149,7 +1154,7 @@ class NVPNMenu extends PanelMenu.Button{
 
         this._clearTransitionStateStyleClass()
         this.style_class+= (this._b_colored_status)?" state-problem":''
-        // this._panel_icon.icon_name= 'action-unavailable-symbolic';
+        this._panel_icon.gicon = dgicon;
 
         this._submenusVisible(true);
         /** call to the 'unselect_no_cb()' private method to clear the country server connection menu
