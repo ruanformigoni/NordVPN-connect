@@ -1,3 +1,11 @@
+# This fork's modifications:
+
+* Official icons with blue/grayed-out status:
+
+![nvpn-off](https://user-images.githubusercontent.com/18180693/124068813-92f8a500-da11-11eb-8325-5e81f7994fef.png)<br>
+![nvpn-on](https://user-images.githubusercontent.com/18180693/124068815-9429d200-da11-11eb-8bf4-9478e8d35524.png)
+
+
 # README:
 
 'NordVPN Connect' gnome-shell extension.
