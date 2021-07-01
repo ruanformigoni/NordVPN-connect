@@ -489,10 +489,15 @@ class NVPNMenu extends PanelMenu.Button{
 
     /** this private member is the horyzontal layout box contaning the server indicator
      * in the panel area*/
+    let iconPath = `${Me.path}/network-vpn-nord.png`;
+    // just for debug if path is correct
+    log(`${Me.metadata.name}: Icon path=${iconPath}`);
+    let gicon = Gio.icon_new_for_string(`${iconPath}`);
     this._panel_hbox= new St.BoxLayout({style_class: 'panel-status-menu-hbox'});
     /** the icon in the top panel area (may change according to current status)*/
-    this._panel_icon = new St.Icon({ icon_name: 'action-unavailable-symbolic',
-                               style_class: 'system-status-icon nvpn-status-icon' });
+    this._panel_icon = new St.Icon({ gicon: gicon,
+      style_class: 'nvpn-status-icon'
+    });
     this._panel_hbox.add(this._panel_icon);
 
     /** 'NVPN' panel text label*/
@@ -1059,7 +1064,8 @@ class NVPNMenu extends PanelMenu.Button{
    * state, and update the UI accordingly
    * @method
    */
-  _update_status_and_ui(){
+  _update_status_and_ui()
+  {
     if(this._cmd.command_shell_found()){ this._shell_checker.hide(); }
     else{ this._shell_checker.show(); }
 
@@ -1071,7 +1077,7 @@ class NVPNMenu extends PanelMenu.Button{
      *  according to the 'nordvpn' command line tool's current state */
     let oldStatus= this.currentStatus;
     this.currentStatus= this._get_current_status();
-    if(oldStatus===this.currentStatus){ this._vpn_lock= false; return; }
+    // if(oldStatus===this.currentStatus){ this._vpn_lock= false; return; }
 
     /** allows the ui menu to be open on user click */
     this.setSensitive(true);
@@ -1081,74 +1087,77 @@ class NVPNMenu extends PanelMenu.Button{
 
     /** the following switch-case allows to update the relevant UI element according to the
      *  newly obtained value of the 'currentStatus' attribute */
-    switch(this.currentStatus){
-    case NVPNMenu.STATUS.DAEMON_DOWN:
-    case NVPNMenu.STATUS.LOGGED_OUT:
-    case NVPNMenu.STATUS.NOT_FOUND:
-      this._label_status.text= (this.currentStatus===NVPNMenu.STATUS.LOGGED_OUT)?
-                                _(" nordvpn tool not logged in")
-                              : (this.currentStatus===NVPNMenu.STATUS.DAEMON_DOWN)?
-                                _(" daemon disabled/missing ")
-                              : _(" tool not found.");
+    switch(this.currentStatus)
+    {
+      case NVPNMenu.STATUS.DAEMON_DOWN:
+      case NVPNMenu.STATUS.LOGGED_OUT:
+      case NVPNMenu.STATUS.NOT_FOUND:
+        this._label_status.text= (this.currentStatus===NVPNMenu.STATUS.LOGGED_OUT)?
+                                  _(" nordvpn tool not logged in")
+                                : (this.currentStatus===NVPNMenu.STATUS.DAEMON_DOWN)?
+                                  _(" daemon disabled/missing ")
+                                : _(" tool not found.");
 
-      this.label_connection.text= "--";
+        this.label_connection.text= "--";
 
-      this.action_button.style_class= 'nvpn-action-button-help';
-      this.action_button.label= _("Help?");
+        this.action_button.style_class= 'nvpn-action-button-help';
+        this.action_button.label= _("Help?");
 
-      this._clearTransitionStateStyleClass()
-      this.style_class+= (this._b_colored_status)?" state-problem":''
-      this._panel_icon.icon_name= 'network-vpn-no-route-symbolic';
+        this._clearTransitionStateStyleClass()
+        this.style_class+= (this._b_colored_status)?" state-problem":''
+        // this._panel_icon.icon_name= 'network-vpn-no-route-symbolic';
 
-      /** submenus hidden */
-      this._submenusVisible(false);
+        /** submenus hidden */
+        this._submenusVisible(false);
 
-      break;
-    case NVPNMenu.STATUS.TRANSITION:
-      /** call to the '_waiting_state()' private method that lock the ui in "waiting state" */
-      this._waiting_state();
+        break;
+      case NVPNMenu.STATUS.TRANSITION:
+        /** call to the '_waiting_state()' private method that lock the ui in "waiting state" */
+        this.style_class+= (this._b_colored_status)?" state-transition":''
+        this._waiting_state();
 
-      break;
-    case NVPNMenu.STATUS.CONNECTED:
-      this._label_status.text= _(" connected to");
+        break;
+      case NVPNMenu.STATUS.CONNECTED:
+        this._label_status.text= _(" connected to");
 
-      this.label_connection.text= "- "+this.server_info.serverName+" -";
-      this.action_button.style_class= 'nvpn-action-button-dq';
-      this.action_button.label= _("Disconnect");
+        this.label_connection.text= "- "+this.server_info.serverName+" -";
+        this.action_button.style_class= 'nvpn-action-button-dq';
+        this.action_button.label= _("Disconnect");
 
-      this._clearTransitionStateStyleClass()
-      this.style_class+= (this._b_colored_status)?" state-connected":''
-      this._panel_icon.icon_name= 'network-vpn-symbolic';
+        this._clearTransitionStateStyleClass()
+        this.style_class+= (this._b_colored_status)?" state-connected":''
+        // this._panel_icon.icon_name= 'network-vpn-symbolic';
 
-      /** enbales the submenus to show*/
-      this._submenusVisible(true);
-      
-      /** mark appropriate country as selected in the locations list */
-      let country= this._getCountyFromServerName(this.server_info.serverName);
-      if(country){
-        this._submenuPlaces.select_from_name(country);
-      }
+        /** enbales the submenus to show*/
+        this._submenusVisible(true);
+        
+        /** mark appropriate country as selected in the locations list */
+        let country= this._getCountyFromServerName(this.server_info.serverName);
+        if(country){
+          this._submenuPlaces.select_from_name(country);
+        }
 
-      break;
-    case NVPNMenu.STATUS.DISCONNECTED:
-    default:
-      this._label_status.text= _(" disconnected.");
+        break;
+      case NVPNMenu.STATUS.DISCONNECTED:
+      default:
+        this._label_status.text= _(" disconnected.");
 
-      this.label_connection.text= "--";
+        this.label_connection.text= "--";
 
-      this.action_button.style_class= 'nvpn-action-button';
-      this.action_button.label= _("Quick Connect (default)");
+        this.action_button.style_class= 'nvpn-action-button';
+        this.action_button.label= _("Quick Connect (default)");
 
-      this._clearTransitionStateStyleClass()
-      this._panel_icon.icon_name= 'action-unavailable-symbolic';
+        this._clearTransitionStateStyleClass()
+        this.style_class+= (this._b_colored_status)?" state-problem":''
+        // this._panel_icon.icon_name= 'action-unavailable-symbolic';
 
-      this._submenusVisible(true);
-      /** call to the 'unselect_no_cb()' private method to clear the country server connection menu
-       *  ui from any selected country */
-      this._submenuPlaces.unselect_no_cb();
+        this._submenusVisible(true);
+        /** call to the 'unselect_no_cb()' private method to clear the country server connection menu
+         *  ui from any selected country */
+        this._submenuPlaces.unselect_no_cb();
 
-      break;
-    }
+        break;
+    } // switch
     /** unlock ui update */
     this._vpn_lock= false;
   }
@@ -1210,7 +1219,7 @@ class NVPNMenu extends PanelMenu.Button{
       this.setSensitive(false);
       /** menu is closed (if opened) */
       this.menu.close();
-      this._panel_icon.icon_name= 'network-vpn-acquiring-symbolic';
+      // this._panel_icon.icon_name= 'network-vpn-acquiring-symbolic';
       this._clearTransitionStateStyleClass()
       this.style_class+= (this._b_colored_status)?" state-transition":''
   }

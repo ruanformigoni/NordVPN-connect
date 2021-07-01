@@ -1,7 +1,19 @@
 .panel-root-button{
   margin: 2px;
+  padding: 0px;
+  border-color: transparent;
+  border-width: 1px;
+  border-radius: 20px;
   /* just for testing */
   /* background-color: rgb(136, 48, 219);  */
+}
+
+.panel-root-button:hover{
+  margin: 2px;
+  padding: 0px;
+  border-color: transparent;
+  border-width: 1px;
+  border-radius: 20px;
 }
 
 .panel-root-button.state-transition{
@@ -9,7 +21,7 @@
 }
 
 .panel-root-button.state-connected{
-  background-color: rgba(48, 133, 255,.3);
+  background-color: rgba(48, 133, 255,.0);
 }
 
 .panel-root-button.state-problem{
@@ -21,22 +33,20 @@
   border-radius: 5px;
 }
 
+.nvpn-status-icon {
+  icon-size: 1.2em;
+}
+
 .panel-status-menu-hbox-transition{
-  background-color: rgba(200,150,30,0.6);
-  border-radius: 5px;
-  font-size: 15px;
+  background-color: rgba(200,150,30,.3);
 }
 
 .panel-status-menu-hbox-connected{
-  background-color: rgba(10,130,10,0.6);
-  border-radius: 5px;
-  font-size: 15px;
+  background-color: rgba(48, 133, 255, .3);
 }
 
 .panel-status-menu-hbox-problem{
-  background-color: rgba(130, 10, 10, 0.6);
-  border-radius: 5px;
-  font-size: 15px;
+  background-color: rgba(130, 10, 10, .3);
 }
 
 .label-nvpn-panel{
@@ -49,7 +59,7 @@
 }
 
 .countries_submenu_label_item_selected_icon {
-    icon-size: 15px;
+  icon-size: 15px;
 }
 
 .system-menu-action{
